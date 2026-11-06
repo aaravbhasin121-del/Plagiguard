@@ -1,0 +1,18 @@
+# Build binaries
+bin/
+target/
+
+# Database & Runtime logs
+*.db
+*.db-shm
+*.db-wal
+*.log
+
+# Dynamic uploads and generated reports
+uploads/*
+!uploads/.gitkeep
+reports/*
+!reports/.gitkeep
+
+# OS files
+.DS_Store

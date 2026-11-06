@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "outputDirectory": "web",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://abcdef-1234.trycloudflare.com/api/:path*"
+    }
+  ]
+}

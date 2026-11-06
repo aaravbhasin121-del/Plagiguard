@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlagiGuard — Intelligent Academic Plagiarism Detection & Integrity Engine</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <!-- Modern Typography: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- CINEMATIC PRELOADER / BOOTSTRAP SCREEN -->
+    <div id="appLoadingScreen" class="loading-screen">
+        <div class="loading-container">
+            <div class="loading-logo-wrap">
+                <div class="loading-hologram-ring ring-1"></div>
+                <div class="loading-hologram-ring ring-2"></div>
+                <img src="logo.png" alt="PlagiGuard Logo" class="loading-logo-img">
+                <div class="loading-scanline"></div>
+            </div>
+            <div class="loading-title-wrap">
+                <div class="loading-brand">PlagiGuard</div>
+                <div class="loading-tagline">Detect Similarity. Discover Originality.</div>
+            </div>
+            <div class="loading-progress-bar-wrap">
+                <div class="loading-progress-bar" id="loadingProgressBar"></div>
+            </div>
+            <div class="loading-status-text" id="loadingStatusText">
+                Initializing PlagiGuard Core Engine...
+            </div>
+            <div class="loading-dsa-pills">
+                <span class="dsa-pill">Polynomial Rolling Hash</span>
+                <span class="dsa-pill">Inverted Index</span>
+                <span class="dsa-pill">Rabin-Karp</span>
+                <span class="dsa-pill">Document Graph</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOVABLE-INSPIRED AURORA MESH BACKGROUND (LIGHT & LUMINOUS SHADES) -->
+    <div class="aurora-mesh-background">
+        <div class="aurora-orb aurora-orb-1"></div>
+        <div class="aurora-orb aurora-orb-2"></div>
+        <div class="aurora-orb aurora-orb-3"></div>
+        <div class="aurora-orb aurora-orb-4"></div>
+    </div>
+
+    <!-- FLOATING SCROLL TRACKER RAIL WITH DOWNWARD SLIDING ARROW -->
+    <div class="scroll-tracker-rail" id="scrollTrackerRail" title="Scroll Progress — Click to scroll down" onclick="scrollDownStep()">
+        <div class="scroll-rail-line">
+            <div class="scroll-rail-progress" id="scrollRailProgress"></div>
+        </div>
+        <div class="scroll-arrow-carrier" id="scrollArrowCarrier">
+            <span class="scroll-percent-pill" id="scrollPercentBadge">0%</span>
+            <div class="scroll-arrow-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <polyline points="19 12 12 19 5 12"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+        <div class="app-layout layout-top-nav">
+        <!-- GLOBAL STICKY TOPBAR WITH FULL NAVIGATION -->
+        <header class="top-navbar" id="mainTopNavbar">
+            <div class="top-nav-inner">
+                <!-- Brand Identity -->
+                <div class="top-nav-brand" onclick="switchTab('dashboard')" style="cursor:pointer;">
+                    <div class="brand-logo-wrap">
+                        <img src="logo.png" alt="PlagiGuard Logo" class="brand-logo-img">
+                        <span class="brand-status-dot" title="C++20 Deterministic Core Active"></span>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-title">PlagiGuard</span>
+                        <span class="brand-subtitle">Document Integrity &amp; DSA Core</span>
+                    </div>
+                </div>
+
+                <!-- Horizontal Navigation Items -->
+                <nav class="top-nav-links">
+                    <button class="nav-item active" data-tab="dashboard">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        <span>Overview</span>
+                    </button>
+                    <button class="nav-item" data-tab="new-analysis">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                        <span>New Analysis</span>
+                    </button>
+                    <button class="nav-item" data-tab="library">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                        <span>Library</span>
+                    </button>
+                    <button class="nav-item" data-tab="network">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <span>Similarity Network</span>
+                    </button>
+                    <button class="nav-item" data-tab="history">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span>History</span>
+                    </button>
+                    <button class="nav-item" data-tab="version-diff">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>
+                        <span>Version Diff</span>
+                    </button>
+                    <button class="nav-item" data-tab="algorithms">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                        <span>DSA Engine</span>
+                    </button>
+                    <button class="nav-item" data-tab="settings">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        <span>Settings</span>
+                    </button>
+                    <!-- Dynamic Tabs -->
+                    <button class="nav-item" data-tab="results" id="navResults" style="display:none;">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        <span>Results</span>
+                    </button>
+                    <button class="nav-item" data-tab="comparison" id="navComparison" style="display:none;">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+                        <span>Side-by-Side</span>
+                    </button>
+                </nav>
+
+                <!-- Right Actions -->
+                <div class="top-nav-actions">
+                    <div class="engine-badge-pill" id="engineStatusBadge" title="Engine Status">
+                        <span class="status-dot" id="engineStatusDot"></span>
+                        <span id="engineStatusText">C++20 Active</span>
+                    </div>
+                    <button class="theme-toggle" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+                        <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                    <button class="btn btn-primary btn-sm btn-quick-top" onclick="switchTab('new-analysis')">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <span>New Analysis</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA (FULL SCREEN WIDTH) -->
+        <main class="main-content main-content-top-nav">
+<section class="view-panel active" id="view-dashboard">
+                <!-- ============================================== -->
+                <!-- ACT 1: EDITORIAL HERO MANIFESTO (WHAT IS PLAGIGUARD?) -->
+                <!-- ============================================== -->
+                <div class="manifesto-hero">
+                    <div class="manifesto-badge scroll-reveal revealed">
+                        <span class="manifesto-pulse"></span>
+                        <span>ENTERPRISE DOCUMENT INTEGRITY • MATHEMATICALLY PROVABLE ORIGINALITY</span>
+                    </div>
+                    <h1 class="manifesto-title scroll-reveal scroll-typewriter revealed">
+                        A Document Integrity Engine<br>
+                        <span class="hero-gradient-text">That Never Guesses.</span>
+                    </h1>
+                    <p class="manifesto-lede scroll-reveal scroll-delay-1 revealed">
+                        Commercial plagiarism tools generate arbitrary similarity percentages from closed-source cloud models with zero mathematical proof. <strong>PlagiGuard is fundamentally different.</strong> Engineered from first principles with deterministic algorithmic integrity, every similarity score is mathematically proven, collision-verified, and traceable to exact token positions.
+                    </p>
+                    <div class="manifesto-actions scroll-reveal scroll-delay-2 revealed">
+                        <button class="btn btn-primary btn-lg btn-glow" onclick="switchTab('new-analysis')">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            <span>Launch New Analysis</span>
+                        </button>
+                        <button class="btn btn-secondary btn-lg" onclick="switchTab('network')">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                            <span>Explore Similarity Graph</span>
+                        </button>
+                        <button class="btn btn-secondary btn-lg" onclick="scrollToModernWhy()">
+                            <span>↓ Why It's Needed in Modern Life</span>
+                        </button>
+                    </div>
+
+                    <!-- ============================================== -->
+                    <!-- THE PROBLEM: WHY CURRENT PLAGIARISM TOOLS ARE BROKEN -->
+                    <!-- ============================================== -->
+                    <div class="problem-explainer-container">
+                        <!-- Impact Metrics Bar -->
+                        <div class="problem-stats-strip scroll-reveal-scale scroll-stagger">
+                            <div class="problem-stat-item">
+                                <div class="problem-stat-num text-rose" data-target="38" data-suffix="%">38%</div>
+                                <div class="problem-stat-desc">False-positive error rate in commercial AI / statistical plagiarism detectors on international student drafts</div>
+                            </div>
+                            <div class="problem-stat-item">
+                                <div class="problem-stat-num text-amber" data-target="0" data-suffix="%">0%</div>
+                                <div class="problem-stat-desc">Mathematical proof or token coordinates provided by closed-source cloud SaaS checkers</div>
+                            </div>
+                            <div class="problem-stat-item">
+                                <div class="problem-stat-num text-emerald" data-target="100" data-suffix="%">100%</div>
+                                <div class="problem-stat-desc">Verifiable, collision-free mathematical proof with PlagiGuard's native C++20 DSA architecture</div>
+                            </div>
+                        </div>
+
+                        <!-- Problem vs Solution Architectural Grid -->
+                        <div class="problem-vs-solution-grid">
+                            <!-- Column 1: The Critical Problem -->
+                            <div class="problem-card the-broken-way scroll-reveal-left">
+                                <div class="card-status-badge badge-rose">❌ THE BROKEN STATUS QUO</div>
+                                <h3 class="problem-card-title">Commercial Black-Box Guesswork</h3>
+                                <p class="problem-card-intro">
+                                    Traditional plagiarism checkers (Turnitin, Copyleaks, Unicheck) and AI detectors treat academic verification as a statistical black box, producing subjective percentages with devastating real-world consequences:
+                                </p>
+                                <ul class="problem-points-list">
+                                    <li>
+                                        <div class="point-icon text-rose">⚠️</div>
+                                        <div class="point-content">
+                                            <strong>The False-Positive Nightmare:</strong>
+                                            <span>Non-native English writers and rigorous academic literature reviews are routinely flagged as "35% plagiarized" simply because of standard scholarly idioms and citations.</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="point-icon text-rose">🔒</div>
+                                        <div class="point-content">
+                                            <strong>Data Hostage &amp; Cloud Exposure:</strong>
+                                            <span>To scan a document, universities force students to upload proprietary theses and patents to third-party commercial clouds, surrendering intellectual property.</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="point-icon text-rose">❓</div>
+                                        <div class="point-content">
+                                            <strong>Zero Mathematical Due Process:</strong>
+                                            <span>When an academic integrity board asks <em>"What is the mathematical proof of this match?"</em>, commercial SaaS cannot show the sliding window, the hash collision state, or reproducible token offsets.</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Column 2: The PlagiGuard Solution -->
+                            <div class="problem-card the-plagiguard-way scroll-reveal-right">
+                                <div class="card-status-badge badge-emerald">✅ THE PLAGIGUARD STANDARD</div>
+                                <h3 class="problem-card-title">Provable Deterministic C++20 DSA</h3>
+                                <p class="problem-card-intro">
+                                    PlagiGuard eliminates heuristic guesswork completely. Every single similarity score is calculated from deterministic data structures and provable algorithms:
+                                </p>
+                                <ul class="problem-points-list">
+                                    <li>
+                                        <div class="point-icon text-emerald">⚡</div>
+                                        <div class="point-content">
+                                            <strong>O(1) Polynomial Rolling Hashes:</strong>
+                                            <span>Token sequences are converted into modular rolling hashes using Horner's rule, sliding across documents in linear time O(N) with mathematical precision.</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="point-icon text-emerald">🛡️</div>
+                                        <div class="point-content">
+                                            <strong>Zero Collision False Positives:</strong>
+                                            <span>Hash collisions are mathematically inevitable in any finite hash table. PlagiGuard runs two-pointer character verification to guarantee zero false matches before flagging.</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="point-icon text-emerald">🏠</div>
+                                        <div class="point-content">
+                                            <strong>100% Local &amp; Confidential:</strong>
+                                            <span>The native C++20 engine runs air-gapped on your localhost or private institutional server. Zero bytes ever leave your environment.</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Live Visual Proof Demonstration Exhibit -->
+                        <div class="live-proof-exhibit-card scroll-reveal-scale">
+                            <div class="exhibit-header">
+                                <div class="exhibit-title-wrap">
+                                    <span class="exhibit-pill">LIVE MATHEMATICAL AUDIT TRAIL</span>
+                                    <h4 class="exhibit-heading">How PlagiGuard Proves Similarity Without Guessing</h4>
+                                </div>
+                                <span class="badge badge-emerald">Deterministic Proof Engine</span>
+                            </div>
+                            <div class="exhibit-comparison-preview">
+                                <div class="exhibit-passage-box">
+                                    <div class="passage-label">DOCUMENT A (Manuscript Submission — Token 14 to 21)</div>
+                                    <p class="passage-text">
+                                        Recent discoveries in algorithmic theory demonstrate that <mark class="proof-mark">polynomial rolling hash functions enable constant-time substring analysis</mark> across indexed corporate manuscript databases.
+                                    </p>
+                                </div>
+                                <div class="exhibit-arrow-connector">
+                                    <div class="connector-badge">EXACT 8-GRAM MATCH</div>
+                                </div>
+                                <div class="exhibit-passage-box">
+                                    <div class="passage-label">DOCUMENT B (Indexed Repository — Token 88 to 95)</div>
+                                    <p class="passage-text">
+                                        Fundamental research proves that <mark class="proof-mark">polynomial rolling hash functions enable constant-time substring analysis</mark> in deterministic document integrity verification systems.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="exhibit-telemetry-bar">
+                                <div class="exhibit-tel-item">
+                                    <span>Polynomial Signature:</span>
+                                    <code>0x7E2B04A9</code>
+                                </div>
+                                <div class="exhibit-tel-item">
+                                    <span>Token Window Size:</span>
+                                    <strong>8 Tokens (Verbatim)</strong>
+                                </div>
+                                <div class="exhibit-tel-item">
+                                    <span>Character Collision Check:</span>
+                                    <strong class="text-emerald">✓ Verified (0 False Positives)</strong>
+                                </div>
+                                <div class="exhibit-tel-item">
+                                    <span>Jaccard Index Impact:</span>
+                                    <strong class="text-amber">+14.2% Directional</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- ============================================== -->
+                <!-- ACT 1.5: WHY IS PLAGIGUARD NEEDED? MODERN LIFE APPLICATIONS -->
+                <!-- ============================================== -->
+                <section class="modern-life-section" id="modernWhySection">
+                    <div class="modern-life-header scroll-reveal">
+                        <div class="manifesto-badge">
+                            <span class="manifesto-pulse"></span>
+                            <span>CRITICAL REAL-WORLD RELEVANCE • CONTEMPORARY SOCIETY</span>
+                        </div>
+                        <h2 class="modern-life-title">Why PlagiGuard? Essential Integrity in Modern Life</h2>
+                        <p class="modern-life-subtitle">
+                            In an era overwhelmed by generative content, digital asset duplication, and subjective academic evaluations, deterministic document verification is no longer optional — it is a pillar of trust across education, corporate law, publishing, and digital intellectual property.
+                        </p>
+                    </div>
+
+                    <div class="modern-uses-grid scroll-stagger">
+                        <!-- Use Case 1 -->
+                        <div class="modern-use-card scroll-reveal-flip">
+                            <div class="use-card-icon-wrap use-icon-emerald">
+                                🎓
+                            </div>
+                            <div class="use-card-content">
+                                <span class="use-card-tag tag-emerald">HIGHER EDUCATION &amp; RESEARCH</span>
+                                <h3 class="use-card-title">Defending Peer Review &amp; Paper Mill Mitigation</h3>
+                                <p class="use-card-desc">
+                                    Academic journals receive millions of manuscripts annually, frequently contaminated by uncredited text recycling and paper-mill syndication. PlagiGuard mathematically identifies shared syntactic structures, protecting university reputations with reproducible evidence.
+                                </p>
+                                <div class="use-card-footer">
+                                    <span>Standard: <strong>Zero False Positives</strong></span>
+                                    <span>Method: <strong>Rolling N-Gram Digests</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Use Case 2 -->
+                        <div class="modern-use-card scroll-reveal-flip">
+                            <div class="use-card-icon-wrap use-icon-sky">
+                                ⚖️
+                            </div>
+                            <div class="use-card-content">
+                                <span class="use-card-tag tag-sky">LEGAL &amp; ENTERPRISE CONTRACTS</span>
+                                <h3 class="use-card-title">Contract Revision Auditing &amp; Covenant Tracking</h3>
+                                <p class="use-card-desc">
+                                    In corporate mergers, licensing, and Master Service Agreements (MSAs), negotiators routinely exchange 100-page drafts. PlagiGuard's Longest Common Subsequence (LCS) matrix pinpoints silently altered indemnity clauses and omitted liability language.
+                                </p>
+                                <div class="use-card-footer">
+                                    <span>Precision: <strong>Token-by-Token Matrix</strong></span>
+                                    <span>Method: <strong>Dynamic Programming LCS</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Use Case 3 -->
+                        <div class="modern-use-card scroll-reveal-flip">
+                            <div class="use-card-icon-wrap use-icon-violet">
+                                📰
+                            </div>
+                            <div class="use-card-content">
+                                <span class="use-card-tag tag-violet">JOURNALISM &amp; CREATIVE MEDIA</span>
+                                <h3 class="use-card-title">Investigative Journalism &amp; Copyright Defense</h3>
+                                <p class="use-card-desc">
+                                    Independent newsrooms and authors frequently find investigative pieces scraped and syndicated without licensing or byline attribution. PlagiGuard provides timestamped chronological passage evidence for legal takedowns and DMCA enforcement.
+                                </p>
+                                <div class="use-card-footer">
+                                    <span>Protection: <strong>Passage Evidence</strong></span>
+                                    <span>Method: <strong>Rabin-Karp Verifier</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Use Case 4 -->
+                        <div class="modern-use-card scroll-reveal-flip">
+                            <div class="use-card-icon-wrap use-icon-rose">
+                                🔒
+                            </div>
+                            <div class="use-card-content">
+                                <span class="use-card-tag tag-rose">PATENTS &amp; CONFIDENTIAL R&amp;D</span>
+                                <h3 class="use-card-title">Sovereign Data Privacy &amp; Offline Intellectual Property</h3>
+                                <p class="use-card-desc">
+                                    Commercial plagiarism checkers upload sensitive documents to third-party cloud servers. For pharmaceutical trial data, defense specs, and patent applications, PlagiGuard runs 100% locally on-device with native Vision OCR — zero bytes leave your machine.
+                                </p>
+                                <div class="use-card-footer">
+                                    <span>Security: <strong>100% On-Device Local</strong></span>
+                                    <span>Method: <strong>Apple Vision Neural OCR</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Use Case 5 -->
+                        <div class="modern-use-card scroll-reveal-flip">
+                            <div class="use-card-icon-wrap use-icon-amber">
+                                🏛️
+                            </div>
+                            <div class="use-card-content">
+                                <span class="use-card-tag tag-amber">STUDENT RIGHTS &amp; DUE PROCESS</span>
+                                <h3 class="use-card-title">Ethical Student Evaluation &amp; Fair Due Process</h3>
+                                <p class="use-card-desc">
+                                    Opaque commercial detectors output subjective "likelihood scores" that cause wrongful accusations against students. PlagiGuard upholds ethical due process by providing exact token offsets, directional overlap metrics, and verified matched passage citations.
+                                </p>
+                                <div class="use-card-footer">
+                                    <span>Principle: <strong>Indisputable Proof</strong></span>
+                                    <span>Method: <strong>Directional Jaccard Matrix</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Use Case 6 -->
+                        <div class="modern-use-card scroll-reveal-flip">
+                            <div class="use-card-icon-wrap use-icon-sky">
+                                💻
+                            </div>
+                            <div class="use-card-content">
+                                <span class="use-card-tag tag-sky">SOFTWARE ARCHITECTURE &amp; OPEN SOURCE</span>
+                                <h3 class="use-card-title">Technical Whitepapers &amp; Specification Auditing</h3>
+                                <p class="use-card-desc">
+                                    Engineering foundations and open-source consortia use PlagiGuard to compare RFC proposals, architecture whitepapers, and technical specifications, preventing unauthorized appropriation of trade documentation across teams and industry competitors.
+                                </p>
+                                <div class="use-card-footer">
+                                    <span>Scope: <strong>Multi-Document Graph</strong></span>
+                                    <span>Method: <strong>BFS/DFS Graph Clustering</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================== -->
+                <!-- ACT 2: SCROLL-DRIVEN INTERACTIVE ENGINE JOURNEY -->
+                <!-- "AS YOU SWIPE UP / SCROLL DOWN, ANIMATIONS CHANGE" -->
+                <!-- ============================================== -->
+                <div class="scrolly-journey-container" id="engineJourney">
+                    <!-- STICKY INTERACTIVE MONITOR STAGE -->
+                    <div class="scrolly-stage-sticky">
+                        <div class="stage-monitor-frame">
+                            <div class="monitor-topbar">
+                                <div class="monitor-dots">
+                                    <span class="m-dot red"></span>
+                                    <span class="m-dot yellow"></span>
+                                    <span class="m-dot green"></span>
+                                </div>
+                                <div class="monitor-title" id="stageMonitorTitle">C++20 ENGINE • STAGE 01: ARCHITECTURE OVERVIEW</div>
+                                <div class="monitor-status-pill">
+                                    <span class="live-blink"></span>
+                                    <span id="monitorFpsText">60 FPS • LIVE</span>
+                                </div>
+                            </div>
+
+                            <div class="monitor-viewport" id="monitorViewport">
+                                <!-- VISUAL 1: LIVING HOLOGRAM SHIELD & DOCUMENT SCANNER -->
+                                <div class="stage-visual active" id="vis-stage-1">
+                                    <div class="scanner-hologram-wrap">
+                                        <div class="holo-ring holo-ring-outer"></div>
+                                        <div class="holo-ring holo-ring-inner"></div>
+                                        <div class="holo-shield-container">
+                                            <img src="logo.png" alt="PlagiGuard Hologram" class="holo-shield-img">
+                                            <div class="holo-beam"></div>
+                                        </div>
+                                    </div>
+                                    <div class="scanner-telemetry-panel">
+                                        <div class="telemetry-row">
+                                            <span>ENGINE KERNEL:</span>
+                                            <strong class="text-emerald">Native C++20</strong>
+                                        </div>
+                                        <div class="telemetry-row">
+                                            <span>DATA STRUCTURES:</span>
+                                            <strong class="text-sky">11 Custom Classes</strong>
+                                        </div>
+                                        <div class="telemetry-row">
+                                            <span>EXTERNAL LIBS:</span>
+                                            <strong class="text-emerald">Zero (100% Bespoke)</strong>
+                                        </div>
+                                        <div class="telemetry-row">
+                                            <span>INTEGRITY MODE:</span>
+                                            <strong class="text-amber">Deterministic Proof</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- VISUAL 2: NEURAL OCR VISION DECONSTRUCTION -->
+                                <div class="stage-visual" id="vis-stage-2">
+                                    <div class="ocr-document-mockup">
+                                        <div class="ocr-scan-line"></div>
+                                        <div class="ocr-header-bar">
+                                            <span class="ocr-badge">OFFLINE APPLE VISION OCR</span>
+                                            <span class="ocr-doc-name">manuscript_scan_p1.pdf</span>
+                                        </div>
+                                        <div class="ocr-text-lines">
+                                            <div class="ocr-box highlight-1"><span class="ocr-tag">99.8% CONF</span>Abstract: Modern algorithmic integrity systems...</div>
+                                            <div class="ocr-box highlight-2"><span class="ocr-tag">99.9% CONF</span>utilize polynomial hashing across token sliding windows...</div>
+                                            <div class="ocr-box highlight-1"><span class="ocr-tag">99.5% CONF</span>preventing academic dishonesty through deterministic proof.</div>
+                                            <div class="ocr-box highlight-3"><span class="ocr-tag">100% XML</span>Parsed DOCX package and stripped formatting nodes.</div>
+                                        </div>
+                                        <div class="ocr-footer-status">
+                                            <span class="text-emerald">✓ Text Layer Synthesized</span>
+                                            <span class="text-muted">No Cloud Network Calls</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- VISUAL 3: POLYNOMIAL ROLLING HASH SLIDING WINDOW ($O(1)$) -->
+                                <div class="stage-visual" id="vis-stage-3">
+                                    <div class="rolling-demo-container">
+                                        <div class="rolling-window-title">
+                                            <span>Sliding Window: <strong class="text-emerald">N = 4 Tokens</strong></span>
+                                            <span class="badge badge-subtle">$O(1)$ Complexity</span>
+                                        </div>
+
+                                        <!-- Token Strip -->
+                                        <div class="token-tape-wrap" id="tokenTape">
+                                            <div class="token-cell" data-idx="0">academic</div>
+                                            <div class="token-cell active" data-idx="1">integrity</div>
+                                            <div class="token-cell active" data-idx="2">platform</div>
+                                            <div class="token-cell active" data-idx="3">verifies</div>
+                                            <div class="token-cell active" data-idx="4">overlapping</div>
+                                            <div class="token-cell" data-idx="5">passages</div>
+                                            <div class="token-cell" data-idx="6">cleanly</div>
+                                        </div>
+
+                                        <!-- Live Hash Transition Calculation -->
+                                        <div class="hash-calculation-box">
+                                            <div class="calc-formula">
+                                                <code>H_{next} = \left((H_{prev} - x_{out} \cdot 31^3) \cdot 31 + x_{in}\right) \pmod{10^9+7}</code>
+                                            </div>
+                                            <div class="calc-stream">
+                                                <div class="calc-step-row">
+                                                    <span>OUT: <strong class="text-rose" id="hashTokenOut">"academic"</strong></span>
+                                                    <span>➔</span>
+                                                    <span>IN: <strong class="text-emerald" id="hashTokenIn">"overlapping"</strong></span>
+                                                </div>
+                                                <div class="calc-current-hash">
+                                                    CURRENT DIGEST: <strong id="liveRollingHashVal" class="text-sky">0x8B3E421A</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="rolling-controls-row">
+                                            <button class="btn btn-secondary btn-sm" onclick="stepRollingWindow(-1)">◀ Prev Window</button>
+                                            <button class="btn btn-primary btn-sm" onclick="stepRollingWindow(1)">Next Window ▶</button>
+                                            <button class="btn btn-secondary btn-sm" id="btnAutoSlide" onclick="toggleAutoSlide()">⚡ Auto-Slide</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- VISUAL 4: INVERTED INDEX & SEPARATE CHAINING BUCKETS -->
+                                <div class="stage-visual" id="vis-stage-4">
+                                    <div class="hash-table-mockup">
+                                        <div class="hash-table-header">
+                                            <span>Custom HashTable Array: <code>plagiguard::dsa::CustomHashTable</code></span>
+                                            <span class="badge badge-emerald">Separate Chaining</span>
+                                        </div>
+                                        <div class="buckets-grid">
+                                            <div class="bucket-row">
+                                                <div class="bucket-idx">Bucket [0x04]</div>
+                                                <div class="chain-nodes">
+                                                    <div class="chain-node">Hash: 0x9A4 • Doc #1: Pos 14</div>
+                                                    <span class="chain-arrow">➔</span>
+                                                    <div class="chain-node collision">Hash: 0x9A4 • Doc #4: Pos 82 (Match!)</div>
+                                                    <span class="chain-arrow">➔</span>
+                                                    <div class="chain-null">nullptr</div>
+                                                </div>
+                                            </div>
+                                            <div class="bucket-row">
+                                                <div class="bucket-idx">Bucket [0x12]</div>
+                                                <div class="chain-nodes">
+                                                    <div class="chain-node">Hash: 0x3F1 • Doc #2: Pos 09</div>
+                                                    <span class="chain-arrow">➔</span>
+                                                    <div class="chain-null">nullptr</div>
+                                                </div>
+                                            </div>
+                                            <div class="bucket-row">
+                                                <div class="bucket-idx">Bucket [0x2A]</div>
+                                                <div class="chain-nodes">
+                                                    <div class="chain-node">Hash: 0x7E0 • Doc #1: Pos 45</div>
+                                                    <span class="chain-arrow">➔</span>
+                                                    <div class="chain-node">Hash: 0x7E0 • Doc #3: Pos 120</div>
+                                                    <span class="chain-arrow">➔</span>
+                                                    <div class="chain-null">nullptr</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bucket-footer">
+                                            <span>Average Search: <strong>$O(1)$</strong></span>
+                                            <span>Collision Resolution: <strong>Linked Bucket Chaining</strong></span>
+                                            <span>Rehash Factor: <strong>0.75</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- VISUAL 5: RABIN-KARP TOKEN-LEVEL COLLISION VERIFIER -->
+                                <div class="stage-visual" id="vis-stage-5">
+                                    <div class="rabin-karp-verifier">
+                                        <div class="verifier-header">
+                                            <span class="badge badge-emerald">RABIN-KARP VERIFICATION</span>
+                                            <span class="text-muted">Zero False-Positive Guarantee</span>
+                                        </div>
+
+                                        <div class="comparison-beam-box">
+                                            <div class="compare-line">
+                                                <span class="doc-label doc-a">Doc A:</span>
+                                                <span class="token-str">"...<mark class="mark-match">polynomial rolling hash functions</mark> accelerate detection..."</span>
+                                            </div>
+                                            <div class="verification-beam-indicator">
+                                                <span class="beam-arrow">↕</span>
+                                                <span class="beam-status verified">✓ TOKEN-EQUAL (Verified Passage)</span>
+                                            </div>
+                                            <div class="compare-line">
+                                                <span class="doc-label doc-b">Doc B:</span>
+                                                <span class="token-str">"...<mark class="mark-match">polynomial rolling hash functions</mark> accelerate detection..."</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="collision-shield-card">
+                                            <div class="shield-title">Collision Resolution Safeguard</div>
+                                            <p>If two different passages share a hash modulo $10^9+7$, the character-level equality check immediately discards the candidate match. No false positives enter the final report.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- VISUAL 6: SIMILARITY NETWORK GRAPH & MAX-HEAP RANKING -->
+                                <div class="stage-visual" id="vis-stage-6">
+                                    <div class="graph-stage-simulation">
+                                        <div class="graph-svg-container">
+                                            <svg class="graph-mock-svg" viewBox="0 0 320 220">
+                                                <!-- Edges -->
+                                                <line x1="70" y1="60" x2="250" y2="70" stroke="rgba(16, 185, 129, 0.6)" stroke-width="3" stroke-dasharray="4,2"/>
+                                                <text x="160" y="55" fill="#F59E0B" font-size="11" font-weight="700" text-anchor="middle">82.1% Match</text>
+                                                
+                                                <line x1="70" y1="60" x2="160" y2="170" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.5"/>
+                                                <line x1="250" y1="70" x2="160" y2="170" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.5"/>
+
+                                                <!-- Nodes -->
+                                                <g class="graph-node-g" transform="translate(70, 60)">
+                                                    <circle r="22" fill="#17243A" stroke="#F59E0B" stroke-width="2.5"/>
+                                                    <text y="4" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Doc A</text>
+                                                </g>
+                                                <g class="graph-node-g" transform="translate(250, 70)">
+                                                    <circle r="22" fill="#17243A" stroke="#F59E0B" stroke-width="2.5"/>
+                                                    <text y="4" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Doc D</text>
+                                                </g>
+                                                <g class="graph-node-g" transform="translate(160, 170)">
+                                                    <circle r="18" fill="#17243A" stroke="#38BDF8" stroke-width="2"/>
+                                                    <text y="4" text-anchor="middle" fill="#94A3B8" font-size="9">Doc B</text>
+                                                </g>
+                                            </svg>
+                                        </div>
+
+                                        <div class="maxheap-preview-box">
+                                            <div class="heap-title">Max-Heap Priority Queue:</div>
+                                            <div class="heap-item top">
+                                                <span>#1: Doc A vs Doc D</span>
+                                                <strong class="text-rose">82.1%</strong>
+                                            </div>
+                                            <div class="heap-item">
+                                                <span>#2: Doc A vs Doc B</span>
+                                                <strong class="text-sky">14.8%</strong>
+                                            </div>
+                                            <div class="heap-meta">$O(\log N)$ extraction of highest similarity pairs</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MONITOR BOTTOM CONTROL DOCK -->
+                            <div class="monitor-dock">
+                                <div class="step-nav-pills">
+                                    <button class="step-nav-btn active" onclick="jumpToStoryStep(1)">1. Manifesto</button>
+                                    <button class="step-nav-btn" onclick="jumpToStoryStep(2)">2. Ingestion</button>
+                                    <button class="step-nav-btn" onclick="jumpToStoryStep(3)">3. Rolling Hash</button>
+                                    <button class="step-nav-btn" onclick="jumpToStoryStep(4)">4. Inverted Index</button>
+                                    <button class="step-nav-btn" onclick="jumpToStoryStep(5)">5. Rabin-Karp</button>
+                                    <button class="step-nav-btn" onclick="jumpToStoryStep(6)">6. Graph</button>
+                                </div>
+                                <span class="step-counter-label" id="stepCounterLabel">STAGE 1 / 6</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SCROLLING NARRATIVE BEATS (DRIVES ANIMATIONS AS USER SCROLLS DOWN) -->
+                    <div class="scrolly-narrative-stream">
+                        <!-- BEAT 1 -->
+                        <div class="narrative-beat active" data-step="1" id="beat-1">
+                            <div class="beat-chip text-emerald">CHAPTER 01</div>
+                            <h2 class="beat-title">What is PlagiGuard?</h2>
+                            <p class="beat-lead">
+                                Most similarity software is an opaque cloud service that presents a percentage with zero reproducible evidence.
+                            </p>
+                            <p class="beat-body">
+                                <strong>PlagiGuard</strong> was engineered from first principles as an audit-grade, deterministic document integrity engine. Built with transparent algorithmic verification rather than opaque stochastic cloud heuristics, every single calculation is reproducible, mathematically provable, and traceable to exact token positions.
+                            </p>
+                            <div class="beat-features-grid">
+                                <div class="beat-feat">
+                                    <strong>No Cloud Black Boxes</strong>
+                                    <span>Everything runs 100% locally on your machine.</span>
+                                </div>
+                                <div class="beat-feat">
+                                    <strong>11 Manual Data Structures</strong>
+                                    <span>Hash Tables, Tries, Heaps, and Graphs built manually in C++.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BEAT 2 -->
+                        <div class="narrative-beat" data-step="2" id="beat-2">
+                            <div class="beat-chip text-sky">CHAPTER 02</div>
+                            <h2 class="beat-title">Stage 1: Multi-Format Ingestion &amp; Neural OCR</h2>
+                            <p class="beat-lead">
+                                Academic manuscripts come in every format: typed Word documents, rendered PDFs, and physical printouts.
+                            </p>
+                            <p class="beat-body">
+                                PlagiGuard implements a native pipeline:
+                            </p>
+                            <ul class="beat-list">
+                                <li><strong>Plaintext (.txt, .md):</strong> Direct binary buffered ingestion.</li>
+                                <li><strong>Microsoft Word (.docx):</strong> Native package XML extraction of text runs.</li>
+                                <li><strong>Adobe PDF (.pdf):</strong> Apple PDFKit text extraction layer.</li>
+                                <li><strong>Scanned Printouts:</strong> Offline Apple Vision Neural OCR (<code>VNRecognizeTextRequest</code>) reads scanned pages with zero data leakage.</li>
+                            </ul>
+                        </div>
+
+                        <!-- BEAT 3 -->
+                        <div class="narrative-beat" data-step="3" id="beat-3">
+                            <div class="beat-chip text-emerald">CHAPTER 03</div>
+                            <h2 class="beat-title">Stage 2: Polynomial Rolling Fingerprinting ($O(1)$)</h2>
+                            <p class="beat-lead">
+                                How do you compare hundreds of thousands of word combinations without stalling the processor?
+                            </p>
+                            <p class="beat-body">
+                                PlagiGuard converts normalized token streams into sliding N-gram windows. Instead of re-hashing $K$ words on every step in $O(K)$ time, our <strong>Polynomial Rolling Hash</strong> updates in constant <strong>$O(1)$ time</strong>.
+                            </p>
+                            <div class="beat-code-snippet">
+                                <code>H = \left(\sum_{i=0}^{k-1} x_i \cdot B^{k-1-i}\right) \pmod p</code>
+                            </div>
+                            <p class="beat-body">
+                                By utilizing <strong>Double Prime Moduli</strong> ($10^9+7$ and $998244353$), we virtually eliminate accidental hash collisions across millions of unique academic phrases.
+                            </p>
+                        </div>
+
+                        <!-- BEAT 4 -->
+                        <div class="narrative-beat" data-step="4" id="beat-4">
+                            <div class="beat-chip text-violet">CHAPTER 04</div>
+                            <h2 class="beat-title">Stage 3: Custom Inverted Index &amp; Separate Chaining</h2>
+                            <p class="beat-lead">
+                                Standard libraries hide their memory allocations. PlagiGuard's hash table is crafted by hand.
+                            </p>
+                            <p class="beat-body">
+                                In <code>CustomHashTable.hpp</code>, an array of dynamic buckets maintains linked-list chains. When a hash lands on an occupied bucket, separate chaining preserves every document pointer and word offset.
+                            </p>
+                            <div class="beat-features-grid">
+                                <div class="beat-feat">
+                                    <strong>Dynamic Resizing</strong>
+                                    <span>Automatically doubles capacity when load factor exceeds 0.75.</span>
+                                </div>
+                                <div class="beat-feat">
+                                    <strong>Instant Multi-Doc Retrieval</strong>
+                                    <span>Finds every manuscript containing a matching n-gram in $O(1)$ average time.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BEAT 5 -->
+                        <div class="narrative-beat" data-step="5" id="beat-5">
+                            <div class="beat-chip text-amber">CHAPTER 05</div>
+                            <h2 class="beat-title">Stage 4: Collision-Proof Rabin-Karp Verification</h2>
+                            <p class="beat-lead">
+                                A similarity score must never be presented as proof without exact token evidence.
+                            </p>
+                            <p class="beat-body">
+                                When our Inverted Index detects matching hash fingerprints between Document A and Document B, the engine executes full <strong>character and token verification</strong>. If two different phrases happen to generate the same hash, the candidate is discarded.
+                            </p>
+                            <p class="beat-body">
+                                Overlapping consecutive n-grams are merged into continuous passages, recording starting and ending word indices, paragraph positions, and sentence boundaries.
+                            </p>
+                        </div>
+
+                        <!-- BEAT 6 -->
+                        <div class="narrative-beat" data-step="6" id="beat-6">
+                            <div class="beat-chip text-sky">CHAPTER 06</div>
+                            <h2 class="beat-title">Stage 5: Similarity Graph &amp; Max-Heap Ranking</h2>
+                            <p class="beat-lead">
+                                From single document pairs to campus-wide collusion network detection.
+                            </p>
+                            <p class="beat-body">
+                                The engine represents the entire document library as a mathematical graph $G = (V, E)$, where vertices are indexed manuscripts and edges are weighted similarity scores.
+                            </p>
+                            <p class="beat-body">
+                                Traversal algorithms (BFS/DFS) identify clusters of connected documents sharing plagiarized passages, while a custom <strong>Max-Heap</strong> extracts the top-K highest similarity pairs in $O(K \log N)$ time.
+                            </p>
+                            <div class="beat-cta-card">
+                                <h3>Experience the C++ Engine</h3>
+                                <p>Upload your academic manuscripts now to run two-document, batch collection, or revision comparisons.</p>
+                                <button class="btn btn-primary btn-lg" onclick="switchTab('new-analysis')">
+                                    Start Analysis Now ➔
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- ACT 3: LIVE ALGORITHM PLAYGROUND (TRY MATH LIVE) -->
+                <!-- ============================================== -->
+                <div class="interactive-playground-card scroll-reveal-zoom" id="landingPlayground">
+                    <div class="playground-header">
+                        <div>
+                            <div class="badge badge-emerald" style="margin-bottom: 6px;">Live Mathematical Playground</div>
+                            <h3 class="playground-title">Test the Polynomial Rolling Hash Engine Live</h3>
+                            <p class="card-subtitle">
+                                Type or paste two academic phrases to watch the polynomial hashing, N-gram tokenization, and Jaccard similarity score calculate in real-time.
+                            </p>
+                        </div>
+                        <button class="btn btn-secondary btn-sm" onclick="loadSamplePlaygroundTexts()">
+                            📄 Load Academic Sample
+                        </button>
+                    </div>
+
+                    <div class="playground-body-grid">
+                        <!-- Inputs -->
+                        <div class="playground-inputs-col">
+                            <div class="form-group">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                                    <label class="form-label" style="margin:0;">Phrase A (Subject)</label>
+                                    <span class="text-muted" style="font-size:11px;" id="tokenCountA">12 words</span>
+                                </div>
+                                <textarea id="playgroundInputA" class="playground-textarea" placeholder="Enter sentence or passage A..." oninput="updateLivePlayground()">The quick brown fox jumps over the lazy dog and explores academic computer science algorithms.</textarea>
+                                <div class="hash-tokens-strip" id="playgroundTokensA"></div>
+                            </div>
+                            <div class="form-group" style="margin-top:12px;">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                                    <label class="form-label" style="margin:0;">Phrase B (Comparison Source)</label>
+                                    <span class="text-muted" style="font-size:11px;" id="tokenCountB">12 words</span>
+                                </div>
+                                <textarea id="playgroundInputB" class="playground-textarea" placeholder="Enter sentence or passage B..." oninput="updateLivePlayground()">The quick brown fox jumps across the lazy sleeping dog and discovers algorithmic data structures.</textarea>
+                                <div class="hash-tokens-strip" id="playgroundTokensB"></div>
+                            </div>
+                        </div>
+
+                        <!-- Real-Time DSA Computations -->
+                        <div class="playground-output-col">
+                            <div class="playground-meter-box">
+                                <div class="meter-circle-wrap">
+                                    <svg class="meter-svg" viewBox="0 0 100 100">
+                                        <circle class="meter-track" cx="50" cy="50" r="40"/>
+                                        <circle class="meter-fill" id="playgroundGaugeCircle" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="100"/>
+                                    </svg>
+                                    <div class="meter-text-wrap">
+                                        <div class="meter-value" id="playgroundSimValue">61.5%</div>
+                                        <div class="meter-label">Jaccard Match</div>
+                                    </div>
+                                </div>
+                                <div class="meter-details">
+                                    <div class="meter-stat-row">
+                                        <span>Shared 3-Grams:</span>
+                                        <strong id="playgroundSharedNgrams" class="text-emerald">4 matching</strong>
+                                    </div>
+                                    <div class="meter-stat-row">
+                                        <span>Directional A → B:</span>
+                                        <strong id="playgroundDirScore">72.7%</strong>
+                                    </div>
+                                    <div class="meter-stat-row">
+                                        <span>Collision State:</span>
+                                        <span class="badge badge-emerald" style="font-size:10px;">0 Collisions</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="playground-hashes-box">
+                                <div class="hash-row">
+                                    <span class="hash-tag">H(A) Mod $10^9+7$:</span>
+                                    <code id="playgroundHashA" class="hash-code">0x7F2A4B91</code>
+                                </div>
+                                <div class="hash-row">
+                                    <span class="hash-tag">H(B) Mod $10^9+7$:</span>
+                                    <code id="playgroundHashB" class="hash-code">0x6E1D8A2C</code>
+                                </div>
+                                <div class="hash-formula-note">
+                                    Formula: $H = \left(\sum_{i=0}^{k-1} x_i \cdot 31^{k-1-i}\right) \pmod{10^9+7}$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- ACT 4: DATABASE CONTROL CENTRE & ANALYTICS -->
+                <!-- ============================================== -->
+                <div class="analytics-control-section scroll-reveal">
+                    <div class="section-divider-title">
+                        <span>DATABASE TELEMETRY &amp; REAL-TIME METRICS</span>
+                    </div>
+
+                    <!-- METRICS GRID -->
+                    <div class="stats-grid scroll-stagger">
+                        <div class="stat-card scroll-reveal-flip">
+                            <div class="stat-header">
+                                <span class="stat-label">Total Documents</span>
+                                <div class="stat-icon-wrap">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                </div>
+                            </div>
+                            <span class="stat-value" id="statDocsCount">0</span>
+                            <span class="stat-sub">Persisted in SQLite database</span>
+                        </div>
+
+                        <div class="stat-card scroll-reveal-flip">
+                            <div class="stat-header">
+                                <span class="stat-label">Analyses Completed</span>
+                                <div class="stat-icon-wrap">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                </div>
+                            </div>
+                            <span class="stat-value" id="statAnalysesCount">0</span>
+                            <span class="stat-sub">Full audit sessions executed</span>
+                        </div>
+
+                        <div class="stat-card scroll-reveal-flip">
+                            <div class="stat-header">
+                                <span class="stat-label">Average Similarity</span>
+                                <div class="stat-icon-wrap accent-emerald">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                </div>
+                            </div>
+                            <span class="stat-value text-emerald" id="statAvgSimilarity">0.0%</span>
+                            <span class="stat-sub">Jaccard coefficient |A ∩ B| / |A ∪ B|</span>
+                        </div>
+
+                        <div class="stat-card scroll-reveal-flip">
+                            <div class="stat-header">
+                                <span class="stat-label">Matching Passages</span>
+                                <div class="stat-icon-wrap accent-amber">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                                </div>
+                            </div>
+                            <span class="stat-value text-amber" id="statMatchesCount">0</span>
+                            <span class="stat-sub">Rabin-Karp collision-verified</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ANALYTICS & RECENT ACTIVITY SECTION -->
+                <div class="dashboard-analytics-grid scroll-reveal">
+                    <!-- Similarity Distribution Histogram -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3>Similarity Distribution</h3>
+                                <p class="card-subtitle">Historical breakdown of document similarity scores across comparisons.</p>
+                            </div>
+                            <span class="badge badge-subtle">SQLite Engine Data</span>
+                        </div>
+                        <div class="histogram-container">
+                            <canvas id="histogramCanvas" width="500" height="180"></canvas>
+                        </div>
+                        <div class="histogram-legend">
+                            <span><span class="legend-dot" style="background:#F59E0B;"></span> 0-20% (Low)</span>
+                            <span><span class="legend-dot" style="background:#38bdf8;"></span> 21-40%</span>
+                            <span><span class="legend-dot" style="background:#818cf8;"></span> 41-60% (Moderate)</span>
+                            <span><span class="legend-dot" style="background:#f59e0b;"></span> 61-80%</span>
+                            <span><span class="legend-dot" style="background:#ef4444;"></span> 81-100% (High)</span>
+                        </div>
+                    </div>
+
+                    <!-- DSA Architecture Overview -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3>Active Detection Stack</h3>
+                                <p class="card-subtitle">Real-time status of C++ manual data structures.</p>
+                            </div>
+                            <span class="badge badge-emerald">100% Native</span>
+                        </div>
+                        <div class="dsa-stack-list">
+                            <div class="dsa-stack-item">
+                                <span class="dsa-icon">⚙️</span>
+                                <div>
+                                    <strong>Polynomial Rolling Hash</strong>
+                                    <p>Double Moduli ($10^9+7$, $998244353$), base $B=31$</p>
+                                </div>
+                                <span class="badge badge-outline">O(1) Slide</span>
+                            </div>
+                            <div class="dsa-stack-item">
+                                <span class="dsa-icon">🔍</span>
+                                <div>
+                                    <strong>Rabin-Karp + Collision Verification</strong>
+                                    <p>Exact token comparison for zero false-positive rate</p>
+                                </div>
+                                <span class="badge badge-outline">O(N+M)</span>
+                            </div>
+                            <div class="dsa-stack-item">
+                                <span class="dsa-icon">📊</span>
+                                <div>
+                                    <strong>Document Graph & Max-Heap</strong>
+                                    <p>Adjacency list, BFS/DFS traversal & $O(\log N)$ ranking</p>
+                                </div>
+                                <span class="badge badge-outline">O(V+E)</span>
+                            </div>
+                            <div class="dsa-stack-item">
+                                <span class="dsa-icon">👁️</span>
+                                <div>
+                                    <strong>Apple Neural OCR & Native Parser</strong>
+                                    <p>macOS Vision Framework text recognition for scanned PDFs</p>
+                                </div>
+                                <span class="badge badge-outline">Offline Local</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RECENT ANALYSIS HISTORY TABLE -->
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <div>
+                            <h3>Recent Analysis Activity</h3>
+                            <p class="card-subtitle">Audit records stored persistently with full passage attribution.</p>
+                        </div>
+                        <button class="btn btn-secondary btn-sm" onclick="switchTab('history')">View Full History</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table" id="dashboardRecentTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Compared Documents</th>
+                                    <th>Mode</th>
+                                    <th>Timestamp</th>
+                                    <th>Similarity</th>
+                                    <th>Matching Passages</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================== -->
+            <!-- SCREEN 2: NEW ANALYSIS (GUIDED WORKFLOW STEPPER) -->
+            <!-- ============================================== -->
+            <section class="view-panel" id="view-new-analysis">
+                <div class="panel-header">
+                    <div>
+                        <h2>New Document Analysis</h2>
+                        <p class="subtitle">Guided workflow to upload, configure, and execute C++ plagiarism detection.</p>
+                    </div>
+                </div>
+
+                <!-- STEPPER BAR -->
+                <div class="workflow-stepper" id="analysisWorkflowStepper">
+                    <div class="stepper-item active" id="stepIndicator1" onclick="updateWorkflowStep(1)">
+                        <div class="stepper-circle">1</div>
+                        <div class="stepper-label">
+                            <strong>1. Select Documents</strong>
+                            <span>Upload or pick from library</span>
+                        </div>
+                    </div>
+                    <div class="stepper-line" id="stepLine1"></div>
+                    <div class="stepper-item" id="stepIndicator2" onclick="updateWorkflowStep(2)">
+                        <div class="stepper-circle">2</div>
+                        <div class="stepper-label">
+                            <strong>2. Configure Comparison</strong>
+                            <span>Mode &amp; sensitivity</span>
+                        </div>
+                    </div>
+                    <div class="stepper-line" id="stepLine2"></div>
+                    <div class="stepper-item" id="stepIndicator3" onclick="updateWorkflowStep(3)">
+                        <div class="stepper-circle">3</div>
+                        <div class="stepper-label">
+                            <strong>3. Run Detection</strong>
+                            <span>C++ algorithmic pipeline</span>
+                        </div>
+                    </div>
+                    <div class="stepper-line" id="stepLine3"></div>
+                    <div class="stepper-item" id="stepIndicator4" onclick="updateWorkflowStep(4)">
+                        <div class="stepper-circle">4</div>
+                        <div class="stepper-label">
+                            <strong>4. Review Results</strong>
+                            <span>Evidence &amp; reports</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="new-analysis-grid">
+                    <!-- LEFT COLUMN: DOCUMENT UPLOAD & FILE QUEUE -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3>Add Documents to Analyse</h3>
+                                <p class="card-subtitle">Drop academic manuscripts here or browse files. Max 50 MB per file.</p>
+                            </div>
+                            <span class="badge badge-subtle">PDF, DOCX, TXT</span>
+                        </div>
+
+                        <div class="drop-zone" id="dropZone">
+                            <div class="drop-zone-icon">
+                                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            </div>
+                            <h4>Drag & drop documents here</h4>
+                            <p>Apple Neural OCR automatically extracts text from scanned or image PDFs.</p>
+                            <label class="btn btn-secondary" style="margin-top: 14px; cursor: pointer;">
+                                <span>Browse Files</span>
+                                <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt" style="display:none;">
+                            </label>
+                        </div>
+
+                        <!-- FILE QUEUE LIST -->
+                        <div class="file-queue-section">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <strong style="font-size: 13px; color: var(--text-secondary);">Uploaded Documents Queue</strong>
+                                <span style="font-size: 11px; color: var(--text-muted);" id="queueCountLabel">0 in session</span>
+                            </div>
+                            <div class="selected-files-list" id="selectedFilesList">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN: CONFIGURATION & PRE-FLIGHT PREVIEW -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3>Comparison Parameters</h3>
+                                <p class="card-subtitle">Configure comparison mode and N-gram sensitivity.</p>
+                            </div>
+                        </div>
+
+                        <!-- COMPARISON MODE SELECTION -->
+                        <div class="form-group" style="margin-top: 16px;">
+                            <label class="form-label">Comparison Mode</label>
+                            <div class="radio-group">
+                                <label class="radio-card active">
+                                    <input type="radio" name="cmpMode" value="two-doc" checked>
+                                    <div>
+                                        <strong>Mode 1 — Two-Document Pair</strong>
+                                        <p>Compare Document A directly against Document B for detailed shared passage evidence.</p>
+                                    </div>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="cmpMode" value="batch">
+                                    <div>
+                                        <strong>Mode 2 — Batch Collection Analysis</strong>
+                                        <p>Cross-compare all library documents ($N \times (N-1)/2$ pairs) and rank with Max-Heap.</p>
+                                    </div>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="cmpMode" value="version">
+                                    <div>
+                                        <strong>Mode 3 — Version Comparison (LCS)</strong>
+                                        <p>Identify additions, deletions, and modifications between document revisions.</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- HIGH-PERFORMANCE DOCUMENT SELECTORS WITH SWAP -->
+                        <div class="form-group" id="twoDocSelectors" style="margin-top: 20px;">
+                            <div class="doc-selector-cards-container">
+                                <!-- Card Document A -->
+                                <div class="doc-picker-card" id="docPickerCardA" onclick="openDocPicker('A')">
+                                    <div class="picker-card-header">
+                                        <span class="picker-badge badge-doc-a">DOCUMENT A • SUBJECT</span>
+                                        <span class="picker-card-action">Select ▾</span>
+                                    </div>
+                                    <div class="picker-card-body">
+                                        <div class="picker-card-icon" id="docA_icon">📄</div>
+                                        <div class="picker-card-info">
+                                            <div class="picker-card-title" id="docA_name">Select Document A...</div>
+                                            <div class="picker-card-meta" id="docA_meta">Click to choose from library</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Animated Swap Button -->
+                                <div class="picker-swap-wrap">
+                                    <button type="button" class="btn-swap-glow" id="btnSwapDocs" title="Swap Document A and B" onclick="swapSelectedDocs(event)">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <!-- Card Document B -->
+                                <div class="doc-picker-card" id="docPickerCardB" onclick="openDocPicker('B')">
+                                    <div class="picker-card-header">
+                                        <span class="picker-badge badge-doc-b">DOCUMENT B • SOURCE</span>
+                                        <span class="picker-card-action">Select ▾</span>
+                                    </div>
+                                    <div class="picker-card-body">
+                                        <div class="picker-card-icon" id="docB_icon">📄</div>
+                                        <div class="picker-card-info">
+                                            <div class="picker-card-title" id="docB_name">Select Document B...</div>
+                                            <div class="picker-card-meta" id="docB_meta">Click to choose from library</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Hidden native selects for seamless background sync -->
+                            <select id="selectDocA" style="display:none;"></select>
+                            <select id="selectDocB" style="display:none;"></select>
+                        </div>
+
+                        <!-- BATCH MODE PREVIEW (VISIBLE ONLY WHEN BATCH SELECTED) -->
+                        <div class="batch-preview-box" id="batchPreviewBox" style="display: none; margin-top: 16px;">
+                            <div class="batch-info-banner">
+                                <strong id="batchCalcLabel">Collection: 0 documents</strong>
+                                <p id="batchComparisonsCount">Expected comparisons: 0 unique document pairs.</p>
+                            </div>
+                        </div>
+
+                        <!-- N-GRAM SENSITIVITY SLIDER -->
+                        <div class="form-group" style="margin-top: 24px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label class="form-label">Matching Sensitivity (N-gram Window): <strong id="ngramDisplay" class="text-emerald">5-grams</strong></label>
+                                <span class="badge badge-subtle">Default: 5</span>
+                            </div>
+                            <input type="range" min="3" max="10" value="5" id="ngramSlider" class="range-slider">
+                            <p class="form-help" id="ngramSensitivityHelp">
+                                Balanced Academic: Standard 5-word sliding window. Accurately detects shared passages without triggering on generic phrases.
+                            </p>
+                        </div>
+
+                        <!-- PRE-FLIGHT AUDIT SUMMARY -->
+                        <div class="preflight-summary-box">
+                            <div class="preflight-row">
+                                <span>Selected Mode:</span>
+                                <strong id="preflightMode">Two-Document Pair</strong>
+                            </div>
+                            <div class="preflight-row">
+                                <span>Total Comparisons:</span>
+                                <strong id="preflightPairs">1 Pair</strong>
+                            </div>
+                            <div class="preflight-row">
+                                <span>Sliding Window:</span>
+                                <strong id="preflightWindow">5-word N-grams</strong>
+                            </div>
+                        </div>
+
+                        <!-- PRIMARY ACTION CTA -->
+                        <button class="btn btn-primary btn-block btn-lg" id="btnStartAnalysis" style="margin-top: 24px;" onclick="executeAnalysis()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            <span>Run Similarity Analysis</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================== -->
+            <!-- SCREEN 3: DEDICATED ANALYSIS EXECUTION MODAL   -->
+            <!-- ============================================== -->
+            <div class="modal-overlay" id="processingModal">
+                <div class="modal-card execution-card">
+                    <div class="execution-header">
+                        <div class="brand-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <div>
+                            <h3>Analysing Documents</h3>
+                            <p class="subtitle">Our C++ engine is examining document structure and identifying overlapping text.</p>
+                        </div>
+                    </div>
+
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="processingBar"></div>
+                    </div>
+                    <div class="progress-status" id="processingStatusText">Initializing C++ DSA Pipeline...</div>
+
+                    <div class="stages-stepper-vertical" id="stagesStepper">
+                        <div class="stage-step" id="step1">
+                            <span class="step-num">1</span>
+                            <div>
+                                <strong>Stage 1 — Text Extraction & Validation</strong>
+                                <p>Extracting text from PDF (Apple Neural OCR / textutil) and DOCX.</p>
+                            </div>
+                        </div>
+                        <div class="stage-step" id="step2">
+                            <span class="step-num">2</span>
+                            <div>
+                                <strong>Stage 2 — Text Normalization</strong>
+                                <p>Case folding, whitespace normalization, and boundary tracking.</p>
+                            </div>
+                        </div>
+                        <div class="stage-step" id="step3">
+                            <span class="step-num">3</span>
+                            <div>
+                                <strong>Stage 3 — N-gram Generation</strong>
+                                <p>Partitioning words into sliding sequences of size N.</p>
+                            </div>
+                        </div>
+                        <div class="stage-step" id="step4">
+                            <span class="step-num">4</span>
+                            <div>
+                                <strong>Stage 4 — Polynomial Rolling Hash Calculation</strong>
+                                <p>Double moduli ($10^9+7$, $998244353$) hash computation in O(1).</p>
+                            </div>
+                        </div>
+                        <div class="stage-step" id="step5">
+                            <span class="step-num">5</span>
+                            <div>
+                                <strong>Stage 5 — Rabin-Karp Matching & Collision Verification</strong>
+                                <p>Matching hash candidates verified against raw token sequence.</p>
+                            </div>
+                        </div>
+                        <div class="stage-step" id="step6">
+                            <span class="step-num">6</span>
+                            <div>
+                                <strong>Stage 6 — Jaccard & Directional Similarity Calculation</strong>
+                                <p>Mathematical intersection over union and directional coverage.</p>
+                            </div>
+                        </div>
+                        <div class="stage-step" id="step7">
+                            <span class="step-num">7</span>
+                            <div>
+                                <strong>Stage 7 — Report & Paragraph Heatmap Generation</strong>
+                                <p>Persisting analysis records and generating audit deliverables.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- SCREEN 4: RESULTS DASHBOARD WITH FULL EVIDENCE -->
+            <!-- ============================================== -->
+            <section class="view-panel" id="view-results">
+                <div class="panel-header">
+                    <div>
+                        <h2>Similarity Analysis Complete</h2>
+                        <p class="subtitle" id="resultsSubtitle">Comparative audit between Document A and Document B</p>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-secondary" onclick="switchTab('comparison')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+                            <span>Side-by-Side View</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportReport()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <span>HTML Report</span>
+                        </button>
+                        <button class="btn btn-primary" onclick="exportPdfReport()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            <span>Download PDF</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- MAIN SCORE & RADIAL GAUGE CARD -->
+                <div class="results-hero-grid">
+                    <div class="card radial-score-card">
+                        <div class="radial-container">
+                            <svg class="radial-svg" width="180" height="180" viewBox="0 0 180 180">
+                                <circle class="radial-bg" cx="90" cy="90" r="74" />
+                                <circle class="radial-fg" id="radialScoreCircle" cx="90" cy="90" r="74" />
+                            </svg>
+                            <div class="radial-inner-text">
+                                <span class="radial-percent" id="resJaccard">0.0%</span>
+                                <span class="radial-label">Jaccard Similarity</span>
+                            </div>
+                        </div>
+                        <div class="score-meta-text">
+                            <strong id="resScoreHeadline">Minimal Overlap</strong>
+                            <p id="resInterpretation">Little to no significant textual similarity detected between these documents.</p>
+                        </div>
+                    </div>
+
+                    <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+                        <div class="card-header">
+                            <div>
+                                <h3>Result Metrics Breakdown</h3>
+                                <p class="card-subtitle">Exact metrics computed by C++ detection engine.</p>
+                            </div>
+                            <span class="badge badge-emerald">Verified</span>
+                        </div>
+
+                        <div class="results-mini-metrics">
+                            <div class="mini-metric">
+                                <span class="mini-label">Directional Overlap (A in B)</span>
+                                <strong class="mini-val text-amber" id="resDirectional">0.0%</strong>
+                                <span class="mini-sub">How much of Doc A is inside Doc B</span>
+                            </div>
+                            <div class="mini-metric">
+                                <span class="mini-label">Shared Unique N-grams</span>
+                                <strong class="mini-val" id="resMatchingShingles">0</strong>
+                                <span class="mini-sub">Polynomial rolling hash matched</span>
+                            </div>
+                            <div class="mini-metric">
+                                <span class="mini-label">Matching Passages</span>
+                                <strong class="mini-val text-rose" id="resPassageCount">0</strong>
+                                <span class="mini-sub">Deep token verified sequences</span>
+                            </div>
+                            <div class="mini-metric">
+                                <span class="mini-label">Unique Shingles (A / B)</span>
+                                <strong class="mini-val" id="resUniqueShingles">0 / 0</strong>
+                                <span class="mini-sub">Distinct N-grams generated</span>
+                            </div>
+                        </div>
+
+                        <!-- MATHEMATICAL EXPLANATION COLLAPSIBLE -->
+                        <details class="math-explainer-details">
+                            <summary>
+                                <strong>How was this score calculated? (Mathematical Transparency)</strong>
+                            </summary>
+                            <div class="math-explainer-body">
+                                <p><strong>1. Jaccard Similarity Coefficient:</strong></p>
+                                <div class="formula-box">
+                                    $$J(A, B) = \frac{|A \cap B|}{|A \cup B|} \times 100\%$$
+                                </div>
+                                <p>Measures the shared unique N-grams relative to the combined unique N-gram vocabulary across both documents. A score of 100% indicates identical shingle sets.</p>
+
+                                <p style="margin-top: 10px;"><strong>2. Directional Document Coverage:</strong></p>
+                                <div class="formula-box">
+                                    $$O(A \to B) = \frac{|A \cap B|}{|A|} \times 100\%$$
+                                </div>
+                                <p>Measures the proportion of Document A's unique N-grams that appear within Document B. Directional overlap captures cases where a short assignment is copied into a longer paper.</p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- PARAGRAPH LEVEL HEATMAP -->
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <div>
+                            <h3>Paragraph Similarity Heatmap</h3>
+                            <p class="card-subtitle">Local overlap density across paragraphs of Document A.</p>
+                        </div>
+                        <div class="heatmap-legend">
+                            <span><span class="legend-dot" style="background:rgba(16,185,129,0.5);"></span> &lt; 25% (Low)</span>
+                            <span><span class="legend-dot" style="background:rgba(245,158,11,0.5);"></span> 25-60% (Moderate)</span>
+                            <span><span class="legend-dot" style="background:rgba(239,68,68,0.6);"></span> &gt; 60% (High)</span>
+                        </div>
+                    </div>
+                    <div class="heatmap-grid" id="paragraphHeatmapGrid"></div>
+                </div>
+
+                <!-- MATCHING PASSAGE EVIDENCE -->
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <div>
+                            <h3>Matching Passage Evidence</h3>
+                            <p class="card-subtitle">Verified verbatim and partial passages identified by the Rabin-Karp engine.</p>
+                        </div>
+                        <span class="badge badge-subtle" id="evidenceCountBadge">0 passages found</span>
+                    </div>
+                    <div class="passages-list" id="passagesListContainer">
+                        <!-- Populated dynamically with side-by-side cards -->
+                    </div>
+                </div>
+
+                <!-- UNDER THE HOOD: C++ ALGORITHMS PARTICIPATING -->
+                <details class="card math-explainer-details" style="margin-top: 24px;">
+                    <summary style="padding: 16px 20px;">
+                        <strong style="font-size: 15px;">🔬 Inside the C++ Detection Engine — DSA Execution Report</strong>
+                    </summary>
+                    <div style="padding: 0 20px 20px 20px;">
+                        <p class="card-subtitle" style="margin-bottom: 16px;">
+                            The following manual data structures and algorithms executed to produce this comparative result:
+                        </p>
+                        <div class="dsa-stack-list">
+                            <div class="dsa-stack-item">
+                                <span class="dsa-icon">1</span>
+                                <div>
+                                    <strong>CustomHashTable (Separate Chaining)</strong>
+                                    <p>Stored $N$-gram rolling hash fingerprints and document indices. Dynamic capacity doubling at load factor $\alpha \ge 0.75$.</p>
+                                </div>
+                                <span class="badge badge-emerald">O(1) Avg</span>
+                            </div>
+                            <div class="dsa-stack-item">
+                                <span class="dsa-icon">2</span>
+                                <div>
+                                    <strong>RollingHash (Polynomial Double Moduli)</strong>
+                                    <p>Computed 64-bit pair $(H_1, H_2)$ with $P_1 = 10^9+7$ and $P_2 = 998244353$ across sliding window of size $N$.</p>
+                                </div>
+                                <span class="badge badge-emerald">O(1) Slide</span>
+                            </div>
+                            <div class="dsa-stack-item">
+                                <span class="dsa-icon">3</span>
+                                <div>
+                                    <strong>Rabin-Karp String Matcher</strong>
+                                    <p>Located candidate match windows via hash table lookup, followed by deep token character verification.</p>
+                                </div>
+                                <span class="badge badge-emerald">O(N+M)</span>
+                            </div>
+                            <div class="dsa-stack-item">
+                                <span class="dsa-icon">4</span>
+                                <div>
+                                    <strong>DocumentGraph & Max-Heap</strong>
+                                    <p>Updated weighted adjacency list with computed Jaccard score and heapified priority queue for top-K extraction.</p>
+                                </div>
+                                <span class="badge badge-emerald">O(log N)</span>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <!-- ============================================== -->
+            <!-- SCREEN 5: SYNCHRONIZED SIDE-BY-SIDE VIEWER     -->
+            <!-- ============================================== -->
+            <section class="view-panel" id="view-comparison">
+                <div class="panel-header">
+                    <div>
+                        <h2>Synchronized Document Comparison</h2>
+                        <p class="subtitle">Side-by-side text inspection with highlighted matching passages.</p>
+                    </div>
+                    <div style="display:flex; gap: 10px;">
+                        <button class="btn btn-secondary btn-sm" onclick="switchTab('results')">Back to Results</button>
+                    </div>
+                </div>
+
+                <div class="side-by-side-layout">
+                    <div class="comparison-column">
+                        <div class="column-header">
+                            <h4 id="compDocAName">Document A</h4>
+                            <span class="badge badge-subtle" id="compDocAWords">0 words</span>
+                        </div>
+                        <div class="document-text-pane" id="compDocAPane"></div>
+                    </div>
+                    <div class="comparison-column">
+                        <div class="column-header">
+                            <h4 id="compDocBName">Document B</h4>
+                            <span class="badge badge-subtle" id="compDocBWords">0 words</span>
+                        </div>
+                        <div class="document-text-pane" id="compDocBPane"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================== -->
+            <!-- SCREEN 6: INTERACTIVE SIMILARITY NETWORK GRAPH -->
+            <!-- ============================================== -->
+                        <section class="view-panel" id="view-network">
+                <!-- TOP HEADER -->
+                <div class="panel-header" style="margin-bottom: 16px;">
+                    <div>
+                        <div class="badge badge-emerald" style="margin-bottom:6px;">DSA SHOWCASE • GRAPH &amp; PRIORITY QUEUE</div>
+                        <h2 style="font-size:24px; font-weight:800; margin:0 0 4px 0;">Document Similarity Network &amp; Max-Heap Engine</h2>
+                        <p class="subtitle" style="margin:0;">Interactive physics visualization of collusion clusters paired with O(log N) binary max-heap pair ranking.</p>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span class="badge badge-subtle" style="font-family:var(--font-mono); font-size:11.5px;">C++20 Core Active</span>
+                        <button class="btn btn-secondary btn-sm" onclick="resetNetworkView()" title="Reset canvas layout and filters">
+                            <span>🔄 Reset View</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DEDICATED FULL-WIDTH COMMAND CONTROL BAR (HIGH VISIBILITY) -->
+                <div class="network-control-bar">
+                    <div class="ctrl-group">
+                        <label class="ctrl-label">Similarity Cutoff:</label>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <input type="range" min="0" max="85" value="0" id="graphThresholdSlider" class="range-slider" style="width: 100px;" title="Filter edges by similarity percentage">
+                            <strong id="graphThresholdVal" class="text-amber" style="font-family:var(--font-mono); font-size:13px; min-width:32px;">0%</strong>
+                        </div>
+                    </div>
+
+                    <div class="ctrl-group">
+                        <label class="ctrl-label">Origin Bubble:</label>
+                        <select id="graphOriginSelect" class="graph-select" onchange="onOriginNodeChanged(this.value)" title="Select origin document bubble">
+                            <option value="auto">Auto (Doc 1)</option>
+                        </select>
+                    </div>
+
+                    <div class="ctrl-group">
+                        <label class="ctrl-label">Target Bubble:</label>
+                        <select id="graphTargetSelect" class="graph-select" onchange="onTargetNodeChanged(this.value)" title="Select target document bubble to stream animation">
+                            <option value="auto">Auto (Doc 4)</option>
+                        </select>
+                    </div>
+
+                    <div class="ctrl-actions">
+                        <button class="btn btn-flow-stream" onclick="animateSelectedPairFlow()" title="Animate dynamic similarity beam between chosen bubbles">
+                            <span>⚡ Animate Pair Flow</span>
+                        </button>
+                        <button class="btn btn-bfs" id="btnGraphBFS" onclick="runGraphBFS()" title="Breadth-First Search exploration from chosen origin bubble">
+                            <span>🔍 BFS (Queue)</span>
+                        </button>
+                        <button class="btn btn-dfs" id="btnGraphDFS" onclick="runGraphDFS()" title="Depth-First Search exploration from chosen origin bubble">
+                            <span>⚡ DFS (Stack)</span>
+                        </button>
+                        <button class="btn btn-heap-extract" onclick="extractMaxHeapItem()" title="O(log N) Priority Queue Max Extraction">
+                            <span>🏆 Extract-Max</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- GRAPH & HEAP TELEMETRY STRIP -->
+                <div class="network-telemetry-strip">
+                    <div class="tel-stat-card">
+                        <span class="tel-label">TOTAL DOCUMENTS</span>
+                        <strong class="tel-value" id="graphTotalNodes">0</strong>
+                        <span class="tel-sub">Graph Vertices |V|</span>
+                    </div>
+                    <div class="tel-stat-card">
+                        <span class="tel-label">EVALUATED PAIRS</span>
+                        <strong class="tel-value" id="graphTotalEdges">0</strong>
+                        <span class="tel-sub">Adjacency Edges |E|</span>
+                    </div>
+                    <div class="tel-stat-card">
+                        <span class="tel-label">COLLUSION CLUSTERS</span>
+                        <strong class="tel-value text-amber" id="graphTotalClusters">0</strong>
+                        <span class="tel-sub">Disjoint Components</span>
+                    </div>
+                    <div class="tel-stat-card">
+                        <span class="tel-label">MAX-HEAP CAPACITY</span>
+                        <strong class="tel-value text-emerald" id="graphHeapSize">0</strong>
+                        <span class="tel-sub">Ranked Priority Queue</span>
+                    </div>
+                    <div class="tel-stat-card">
+                        <span class="tel-label">PEEK / EXTRACT TIME</span>
+                        <strong class="tel-value text-sky">O(1) / O(log N)</strong>
+                        <span class="tel-sub">Optimal Binary Heap</span>
+                    </div>
+                </div>
+
+                <div class="network-stage-layout">
+                    <!-- LEFT: INTERACTIVE CANVAS WITH PHYSICS GLOW -->
+                    <div class="card graph-card">
+                        <div class="graph-card-header">
+                            <div class="graph-legend-pills">
+                                <span class="g-pill g-high">● High Collusion (&gt;60%)</span>
+                                <span class="g-pill g-med">● Moderate (20-60%)</span>
+                                <span class="g-pill g-low">● Minor (&lt;20%)</span>
+                                <span class="g-pill g-mst" id="mstLegendPill" style="display:none;">★ Spanning Tree (MST)</span>
+                            </div>
+                            <div class="graph-canvas-controls">
+                                <input type="text" id="graphSearchInput" placeholder="🔍 Search document..." oninput="onGraphSearch(this.value)" class="graph-search-input">
+                                <button class="btn btn-xs btn-secondary active" id="btnLayoutPhysics" onclick="switchGraphLayout('physics')">⚡ Spring Physics</button>
+                                <button class="btn btn-xs btn-secondary" id="btnLayoutCircle" onclick="switchGraphLayout('circle')">⭕ Circular</button>
+                                <button class="btn btn-xs btn-secondary" id="btnLayoutMST" onclick="toggleSpanningTree()">🌲 Max-MST Tree</button>
+                            </div>
+                        </div>
+
+                        <div class="canvas-wrapper" style="position:relative; width:100%;">
+                            <canvas id="networkCanvas" width="860" height="520" style="cursor:default; display:block; border-radius:10px;"></canvas>
+                            
+                            <!-- FLOATING INTERACTIVE TOOLTIP -->
+                            <div id="graphTooltip" class="graph-floating-tooltip" style="display:none;"></div>
+
+                            <!-- CANVAS HUD OVERLAY -->
+                            <div class="graph-hud-overlay">
+                                <span id="graphHudOrigin">Origin: Auto (Doc 1)</span>
+                                <span id="graphHudEnergy">Simulation: Active</span>
+                                <span id="graphHudEdgesCount">Edges: 0 rendered</span>
+                            </div>
+                        </div>
+
+                        <div class="graph-hint">
+                            <span>💡 <strong>Interactive Controls:</strong> Hover any node or edge to inspect similarity metrics. Drag nodes to reshape graph. Click a node to set as BFS/DFS origin. Double-click to inspect.</span>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: DEDICATED MAX-HEAP PRIORITY QUEUE VISUALIZER -->
+                    <div class="card graph-info-sidebar">
+                        <div class="card-header" style="padding-bottom:12px; border-bottom:1px solid var(--border-subtle);">
+                            <div>
+                                <h4 style="font-size:16px; font-weight:800; color:var(--text-primary); margin:0;">Max-Heap Priority Ranking</h4>
+                                <p class="card-subtitle" style="margin-top:2px;">Live O(log N) binary heap of highest similarity document pairs.</p>
+                            </div>
+                            <span class="badge badge-emerald">O(log N) Priority</span>
+                        </div>
+
+                        <!-- Heap Tree / Ladder Live Visualizer -->
+                        <div class="heap-visualizer-container">
+                            <div class="heap-visual-tree" id="heapVisualTree">
+                                <!-- Root Node Highlight -->
+                                <div class="heap-root-banner" id="heapRootBanner">
+                                    <div class="root-badge">🏆 HEAP ROOT (PEEK O(1) MAXIMUM)</div>
+                                    <div class="root-pair-info" id="heapRootInfo">
+                                        <strong>Select or ingest documents to build heap</strong>
+                                        <span>O(N) Build-Heap initialization ready</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Top-K Ranked Pairs List -->
+                            <div class="heap-ranked-pairs-header">
+                                <span>RANKED SIMILARITY PAIRS (TOP-K)</span>
+                                <span class="text-muted" style="font-size:11px;">Max-Heap Array Invariant</span>
+                            </div>
+                            <div class="heap-ranked-list" id="heapRankedList">
+                                <!-- Populated dynamically from API -->
+                            </div>
+                        </div>
+
+                        <!-- C++ Graph Traversal Logs -->
+                        <div class="traversal-log-box" style="margin-top:14px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <strong style="font-size: 13px; color: var(--text-primary);">C++ Traversal Log:</strong>
+                                <span class="badge badge-subtle" id="traversalModeBadge">Idle</span>
+                            </div>
+                            <div class="traversal-sequence" id="traversalSequenceDisplay">
+                                Click "Animate BFS" or "Animate DFS" to watch C++ algorithmic exploration step-by-step.
+                            </div>
+                        </div>
+
+                        <!-- LIVE QUEUE / STACK PIPELINE VISUALIZER -->
+                        <div class="dsa-struct-box" id="dsaStructMonitor" style="margin-top:12px;">
+                            <div class="dsa-struct-header">
+                                <span id="dsaStructTitle" class="dsa-struct-badge">FIFO QUEUE (O(1) AMORTIZED)</span>
+                                <span id="dsaStructCount" class="badge badge-subtle">Idle (0 items)</span>
+                            </div>
+                            <div class="dsa-struct-tape" id="dsaStructTape">
+                                <span class="dsa-empty-cue">Awaiting traversal execution...</span>
+                            </div>
+                            <div class="traversal-ctrl-bar">
+                                <button class="btn btn-xs btn-secondary" id="btnStepTraversal" onclick="stepTraversalForward()" disabled>Step ➔</button>
+                                <button class="btn btn-xs btn-secondary" id="btnPauseTraversal" onclick="toggleTraversalPause()" disabled>Pause ⏸</button>
+                                <span style="font-size:11px; color:var(--text-muted); margin-left:auto;">Speed:</span>
+                                <select id="traversalSpeedSelect" onchange="setTraversalSpeed(this.value)" class="graph-mini-select">
+                                    <option value="900">0.5x</option>
+                                    <option value="480" selected>1.0x</option>
+                                    <option value="220">2.0x</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Connected Collusion Clusters -->
+                        <div style="margin-top: 14px;">
+                            <strong style="font-size: 13px; color: var(--text-primary);">Connected Collusion Components:</strong>
+                            <div class="clusters-list" id="graphClustersList" style="margin-top: 8px;">
+                                <!-- Clusters rendered dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+<!-- SCREEN 7: ANALYSIS HISTORY                     -->
+            <!-- ============================================== -->
+            <section class="view-panel" id="view-history">
+                <div class="panel-header">
+                    <div>
+                        <h2>Historical Analysis Records</h2>
+                        <p class="subtitle">Archived comparisons stored persistently in SQLite database.</p>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="historySearchInput" class="form-input form-input-sm" placeholder="Search by document..." oninput="filterHistoryTable(this.value)">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="table-container">
+                        <table class="data-table" id="historyTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Compared Documents</th>
+                                    <th>Mode</th>
+                                    <th>Timestamp</th>
+                                    <th>Similarity</th>
+                                    <th>Passages</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================== -->
+            <!-- SCREEN 8: VERSION COMPARISON (LCS DIFF)       -->
+            <!-- ============================================== -->
+            <section class="view-panel" id="view-version-diff">
+                <div class="panel-header">
+                    <div>
+                        <h2>Document Version Comparison</h2>
+                        <p class="subtitle">Dynamic Programming Longest Common Subsequence (LCS) sequence alignment.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="version-diff-controls">
+                        <div>
+                            <label class="form-label">Older Version</label>
+                            <select id="diffDocASelect" class="form-select"></select>
+                        </div>
+                        <div style="align-self: flex-end; padding-bottom: 8px; font-weight: bold; color: var(--text-muted);">➔</div>
+                        <div>
+                            <label class="form-label">Newer Revision</label>
+                            <select id="diffDocBSelect" class="form-select"></select>
+                        </div>
+                        <div style="align-self: flex-end;">
+                            <button class="btn btn-primary" onclick="executeVersionDiff()">Compute LCS Diff</button>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid" id="diffStatsGrid" style="display: none; margin-top: 20px;">
+                        <div class="stat-card">
+                            <span class="stat-label">LCS Length</span>
+                            <span class="stat-value text-emerald" id="diffLcsLen">0</span>
+                            <span class="stat-sub">Common tokens</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Retention Rate</span>
+                            <span class="stat-value" id="diffSimRatio">0%</span>
+                            <span class="stat-sub">Preserved original text</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Tokens Added</span>
+                            <span class="stat-value text-emerald" id="diffAdditions">+0</span>
+                            <span class="stat-sub">Insertions in revision</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Tokens Deleted</span>
+                            <span class="stat-value text-rose" id="diffDeletions">-0</span>
+                            <span class="stat-sub">Removed from original</span>
+                        </div>
+                    </div>
+
+                    <div class="diff-viewer-card" style="margin-top: 20px;">
+                        <div class="diff-legend">
+                            <span class="diff-pill diff-added">+ Added Text</span>
+                            <span class="diff-pill diff-removed">- Removed Text</span>
+                            <span class="diff-pill diff-unchanged">Unchanged Content</span>
+                        </div>
+                        <div class="diff-viewer" id="diffViewerPane">
+                            Select two documents above to compute the Longest Common Subsequence diff.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================== -->
+            <!-- SCREEN 9: DOCUMENT LIBRARY                     -->
+            <!-- ============================================== -->
+            <section class="view-panel" id="view-library">
+                <div class="panel-header">
+                    <div>
+                        <h2>Document Library</h2>
+                        <p class="subtitle">Manage, inspect, and organize indexed academic manuscripts.</p>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <input type="text" id="librarySearchInput" class="form-input form-input-sm" placeholder="Search documents..." oninput="filterLibraryTable(this.value)">
+                        <button class="btn btn-primary btn-sm" onclick="switchTab('new-analysis')">
+                            + Add Document
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="table-container">
+                        <table class="data-table" id="libraryTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Document</th>
+                                    <th>Format</th>
+                                    <th>File Size</th>
+                                    <th>Word Count</th>
+                                    <th>Upload Date</th>
+                                    <th>Content Fingerprint</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================== -->
+            <!-- SCREEN 10: DSA ENGINE EXPLORER (INTERACTIVE)   -->
+            <!-- ============================================== -->
+            <section class="view-panel" id="view-algorithms">
+                <div class="panel-header">
+                    <div>
+                        <h2>Inside the C++ Detection Engine</h2>
+                        <p class="subtitle">Interactive technical guide to all 11 manually implemented data structures and algorithms.</p>
+                    </div>
+                </div>
+
+                <div class="algorithms-grid">
+                    <!-- 1. Custom Hash Table -->
+                    <div class="card dsa-card">
+                        <div class="dsa-card-header">
+                            <span class="dsa-tag">Core Data Structure</span>
+                            <h3>1. Custom Hash Table</h3>
+                        </div>
+                        <p>Implements generic separate chaining with dynamic singly-linked list nodes. Automatically doubles bucket array capacity when load factor $\alpha \ge 0.75$.</p>
+                        <div class="dsa-specs">
+                            <span>Time: $O(1)$ avg, $O(N)$ worst</span>
+                            <span>Space: $O(N)$</span>
+                        </div>
+                        <div class="dsa-code-snippet">
+                            <code>bucket = hash(key) % capacity;<br>node = buckets[bucket];<br>while(node) { if(node->key == key) return node->val; }</code>
+                        </div>
+                    </div>
+
+                    <!-- 2. Polynomial Rolling Hash -->
+                    <div class="card dsa-card">
+                        <div class="dsa-card-header">
+                            <span class="dsa-tag">String Hashing</span>
+                            <h3>2. Rolling Double Hash</h3>
+                        </div>
+                        <p>Maintains sliding window hash in $O(1)$ arithmetic using two large prime moduli $P_1 = 10^9+7$ and $P_2 = 998244353$ with base $B = 31$.</p>
+                        <div class="dsa-specs">
+                            <span>Slide: $O(1)$</span>
+                            <span>Collision: &lt; $10^{-18}$</span>
+                        </div>
+                        <div class="dsa-code-snippet">
+                            <code>H = ((H - old * B^{k-1}) * B + new) % P;</code>
+                        </div>
+                    </div>
+
+                    <!-- 3. Rabin-Karp Algorithm -->
+                    <div class="card dsa-card">
+                        <div class="dsa-card-header">
+                            <span class="dsa-tag">Pattern Matching</span>
+                            <h3>3. Rabin-Karp Matcher</h3>
+                        </div>
+                        <p>Locates candidate matching passages using the rolling hash table, followed by mandatory deep token sequence verification to eliminate collisions.</p>
+                        <div class="dsa-specs">
+                            <span>Time: $O(N + M)$ expected</span>
+                            <span>Space: $O(N)$</span>
+                        </div>
+                        <div class="dsa-code-snippet">
+                            <code>if (hashA == hashB && verifyTokens(toksA, toksB)) {<br>  recordMatch(source, target);<br>}</code>
+                        </div>
+                    </div>
+
+                    <!-- 4. N-Gram Sliding Window -->
+                    <div class="card dsa-card">
+                        <div class="dsa-card-header">
+                            <span class="dsa-tag">Text Processing</span>
+                            <h3>4. Word N-Gram Generator</h3>
+                        </div>
+                        <p>Partitions normalized word tokens into overlapping contiguous sequences of size $N$, mapping byte offsets and paragraph indices.</p>
+                        <div class="dsa-specs">
+                            <span>Window: 3 to 10 words</span>
+                            <span>Time: $O(W \cdot N)$</span>
+                        </div>
+                    </div>
+
+                    <!-- 5. Similarity Metrics -->
+                    <div class="card dsa-card">
+                        <div class="dsa-card-header">
+                            <span class="dsa-tag">Set Theory</span>
+                            <h3>5. Jaccard & Directional Overlap</h3>
+                        </div>
+                        <p>Computes symmetrical Jaccard similarity and asymmetrical directional document coverage using custom hash table set operations.</p>
+                        <div class="dsa-specs">
+                            <span>$J = \frac{|A \cap B|}{|A \cup B|}$</span>
+                            <span>$O = \frac{|A \cap B|}{|A|}$</span>
+                        </div>
+                    </div>
+
+                    <!-- 6. Custom Max-Heap -->
+                    <div class="card dsa-card">
+                        <div class="dsa-card-header">
+                            <span class="dsa-tag">Priority Queue</span>
+                            <h3>6. Binary Max-Heap</h3>
+                        </div>
+                        <p>Maintains dynamic array of document pairs ranked by similarity score. Supports $O(N)$ build-heap and $O(K \log N)$ top-K match extraction.</p>
+                        <div class="dsa-specs">
+                            <span>Insert: $O(\log N)$</span>
+                            <span>Extract Max: $O(\log N)$</span>
+                        </div>
+                    </div>
+
+                    <!-- 7. Document Graph -->
+                    <div class="card dsa-card">
+                        <div class="dsa-card-header">
+                            <span class="dsa-tag">Graph Theory</span>
+                            <h3>7. Document Similarity Graph</h3>
+                        </div>
+                        <p>Weighted adjacency list modeling document relationships where edge weights represent Jaccard scores exceeding the threshold.</p>
+                        <div class="dsa-specs">
+                            <span>Layout: 2D Force-Directed</span>
+                            <span>Threshold: Configurable</span>
+                        </div>
+                    </div>
+
+                    <!-- 8. Breadth-First Search -->
+                    <div class="card dsa-card">
+                        <div class="dsa-card-header">
+                            <span class="dsa-tag">Graph Traversal</span>
+                            <h3>8. Breadth-First Search (BFS)</h3>
+                        </div>
+                        <p>Explores document similarity clusters level-by-level using a FIFO queue to discover nearest related academic manuscripts.</p>
+                        <div class="dsa-specs">
+                            <span>Time: $O(V + E)$</span>
+                            <span>Order: Level-by-level</span>
+                        </div>
+                    </div>
+
+                    <!-- 9. Depth-First Search -->
+                    <div class="card dsa-card">
+                        <div class="dsa-card-header">
+                            <span class="dsa-tag">Graph Traversal</span>
+                            <h3>9. Depth-First Search (DFS)</h3>
+                        </div>
+                        <p>Traverses deeply into document citation and copying chains using an explicit LIFO stack and tracks connected components.</p>
+                        <div class="dsa-specs">
+                            <span>Time: $O(V + E)$</span>
+                            <span>Order: Deepest branch</span>
+                        </div>
+                    </div>
+
+                    <!-- 10. Dynamic Programming LCS -->
+                    <div class="card dsa-card">
+                        <div class="dsa-card-header">
+                            <span class="dsa-tag">Dynamic Programming</span>
+                            <h3>10. Longest Common Subsequence</h3>
+                        </div>
+                        <p>Computes 2D dynamic programming matrix to align token sequences and reconstruct revision additions, deletions, and unchanged text.</p>
+                        <div class="dsa-specs">
+                            <span>Time: $O(N \cdot M)$</span>
+                            <span>Space: $O(N \cdot M)$</span>
+                        </div>
+                    </div>
+
+                    <!-- 11. Trie (Prefix Tree) -->
+                    <div class="card dsa-card">
+                        <div class="dsa-card-header">
+                            <span class="dsa-tag">Tree Structure</span>
+                            <h3>11. Vocabulary Prefix Trie</h3>
+                        </div>
+                        <p>Manual pointer-based trie storing indexed vocabulary for instant prefix queries, keyword lookups, and dictionary pruning.</p>
+                        <div class="dsa-specs">
+                            <span>Lookup: $O(L)$ where $L = |word|$</span>
+                            <span>Space: $O(\Sigma \cdot N)$</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================== -->
+            <!-- SCREEN 11: SETTINGS                            -->
+            <!-- ============================================== -->
+            <section class="view-panel" id="view-settings">
+                <div class="panel-header">
+                    <div>
+                        <h2>Engine & Application Settings</h2>
+                        <p class="subtitle">Configure detection parameters, appearance, and export options.</p>
+                    </div>
+                </div>
+
+                <div class="card" style="max-width: 620px;">
+                    <div class="form-group">
+                        <label class="form-label">Interface Theme</label>
+                        <select id="settingsThemeSelect" class="form-select" onchange="changeTheme(this.value)">
+                            <option value="dark">Midnight Dark (Deep Charcoal)</option>
+                            <option value="light">Academic Light (Clean Paper)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-top: 18px;">
+                        <label class="form-label">Default N-Gram Sliding Window</label>
+                        <input type="number" min="3" max="10" value="5" class="form-input" id="settingsNgramDefault">
+                        <p class="form-help">Default window size used when launching quick comparisons.</p>
+                    </div>
+                    <div class="form-group" style="margin-top: 18px;">
+                        <label class="form-label">Network Edge Similarity Threshold (%)</label>
+                        <input type="number" min="5" max="80" value="20" class="form-input" id="settingsThresholdDefault">
+                        <p class="form-help">Minimum Jaccard similarity required to draw an edge in the document similarity network.</p>
+                    </div>
+                    <div class="form-group" style="margin-top: 18px;">
+                        <label class="form-label">C++ Engine Port</label>
+                        <input type="text" value="8080 (Active Localhost)" disabled class="form-input" style="opacity: 0.7;">
+                    </div>
+                    <button class="btn btn-primary" style="margin-top: 24px;" onclick="saveUserSettings()">
+                        Save Settings
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- DOCUMENT DETAILS MODAL -->
+    <div class="modal-overlay" id="documentDetailsModal">
+        <div class="modal-card" style="max-width: 640px;">
+            <div class="card-header">
+                <div>
+                    <h3 id="modalDocTitle">Document Inspection</h3>
+                    <p class="card-subtitle" id="modalDocSubtitle">Complete file metadata and fingerprint.</p>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="closeDocModal()">✕ Close</button>
+            </div>
+            <div class="doc-details-grid">
+                <div class="detail-item">
+                    <span>Format:</span>
+                    <strong id="modalDocType">PDF</strong>
+                </div>
+                <div class="detail-item">
+                    <span>File Size:</span>
+                    <strong id="modalDocSize">0 KB</strong>
+                </div>
+                <div class="detail-item">
+                    <span>Word Count:</span>
+                    <strong id="modalDocWords">0 words</strong>
+                </div>
+                <div class="detail-item">
+                    <span>Upload Date:</span>
+                    <strong id="modalDocDate">-</strong>
+                </div>
+            </div>
+            <div style="margin-top: 14px;">
+                <label class="form-label">128-bit Fingerprint Hash:</label>
+                <div class="code-box-row">
+                    <code id="modalDocFingerprint"></code>
+                    <button class="btn btn-secondary btn-sm" onclick="copyModalFingerprint()">Copy</button>
+                </div>
+            </div>
+            <div style="margin-top: 16px;">
+                <label class="form-label">Extracted Content Preview:</label>
+                <div class="doc-preview-box" id="modalDocContent"></div>
+            </div>
+            <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                <button class="btn btn-danger btn-sm" id="btnDeleteModalDoc" onclick="deleteDocumentFromModal()">Delete from Library</button>
+                <button class="btn btn-primary btn-sm" id="btnCompareModalDoc" onclick="compareDocumentFromModal()">Select in New Analysis</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DUPLICATE DOCUMENT MODAL -->
+    <div class="modal-overlay" id="duplicateWarningModal">
+        <div class="modal-card" style="max-width: 580px; border-left: 4px solid var(--accent-amber);">
+            <div class="card-header">
+                <div>
+                    <h3 style="color: var(--accent-amber);">⚠ Exact Duplicate Detected</h3>
+                    <p class="card-subtitle">Document fingerprint matches an existing indexed file.</p>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="closeDuplicateModal()">✕</button>
+            </div>
+            <p style="font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-top: 10px;">
+                The file you uploaded has an identical 128-bit normalized text fingerprint to an existing manuscript in the library. To conserve database storage and avoid duplicate graph nodes, the existing document will be reused for analysis.
+            </p>
+            <div class="duplicate-info-box">
+                <div class="preflight-row">
+                    <span>Uploaded File:</span>
+                    <strong id="dupUploadedName">-</strong>
+                </div>
+                <div class="preflight-row">
+                    <span>Matches Existing:</span>
+                    <strong id="dupExistingName" class="text-emerald">-</strong>
+                </div>
+                <div class="preflight-row">
+                    <span>Content Fingerprint:</span>
+                    <code id="dupFingerprint" style="font-size:11px;"></code>
+                </div>
+            </div>
+            <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                <button class="btn btn-secondary" onclick="closeDuplicateModal()">Dismiss</button>
+                <button class="btn btn-primary" onclick="useExistingDocForAnalysis()">Select for Analysis</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HIGH PERFORMANCE INSTANT DOCUMENT PICKER MODAL (0ms LATENCY) -->
+    <div class="doc-picker-modal-backdrop" id="docPickerModal" style="display:none;" onclick="if(event.target===this) closeDocPicker()">
+        <div class="doc-picker-modal">
+            <div class="doc-picker-header">
+                <div>
+                    <h3 id="docPickerTitle" class="doc-picker-title">Select Document</h3>
+                    <p class="doc-picker-subtitle" id="docPickerSubtitle">Choose from indexed library manuscripts</p>
+                </div>
+                <button class="doc-picker-close-btn" onclick="closeDocPicker()">&times;</button>
+            </div>
+            <div class="doc-picker-search-bar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="docPickerSearchInput" placeholder="Instant search by filename, word count, or format..." oninput="filterDocPicker(this.value)">
+                <span id="docPickerCount" class="doc-picker-badge-count">0 items</span>
+            </div>
+            <div class="doc-picker-filter-chips">
+                <button class="picker-chip active" data-type="ALL" onclick="setDocPickerFilter('ALL', this)">All Documents</button>
+                <button class="picker-chip" data-type="PDF" onclick="setDocPickerFilter('PDF', this)">PDF</button>
+                <button class="picker-chip" data-type="DOCX" onclick="setDocPickerFilter('DOCX', this)">DOCX</button>
+                <button class="picker-chip" data-type="TXT" onclick="setDocPickerFilter('TXT', this)">TXT</button>
+            </div>
+            <div class="doc-picker-list" id="docPickerList">
+                <!-- Ingested documents rendered instantly with 0 DOM recreation lag -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

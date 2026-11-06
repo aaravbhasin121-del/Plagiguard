@@ -1,0 +1,20 @@
+Data structures are fundamental concepts in computer science. They provide efficient ways to organize, store, and manage data in memory. Understanding data structures is essential for writing efficient algorithms and solving complex computational problems.
+
+A hash table is one of the most powerful data structures available to programmers. It provides average constant-time O(1) lookup, insertion, and deletion operations by mapping keys to positions in an array using a hash function. Hash tables are widely used in databases, caches, and symbol tables.
+
+The Rabin-Karp algorithm is a string-searching algorithm that uses hashing to find patterns within text. It computes a hash value for the pattern and then compares it to hash values computed for substrings of the target text. This allows efficient detection of matching substrings without character-by-character comparison in the average case.
+
+N-gram models are widely used in natural language processing and information retrieval. An N-gram is a contiguous sequence of N items from a given sample of text. By comparing N-gram sets between documents, we can measure textual similarity and identify shared passages.
+
+Graph theory provides the mathematical foundation for many computer science problems. A graph consists of vertices connected by edges. Breadth-first search (BFS) and depth-first search (DFS) are fundamental traversal algorithms used to explore graphs systematically.
+
+Dynamic programming is a method for solving complex problems by breaking them into simpler overlapping subproblems. The Levenshtein edit distance and the longest common subsequence are classic dynamic programming problems used to measure similarity between sequences.
+
+A trie (prefix tree) is a tree-like data structure that stores strings where each node represents a character. Tries enable efficient prefix searches and are used in autocomplete systems, spell checkers, and IP routing tables.
+
+A max-heap is a complete binary tree where each node's value is greater than or equal to its children. Heaps are used to implement priority queues and the heap sort algorithm. The heapify operation maintains the heap property in O(log n) time.
+
+Additional sections have been added by the student to make the document appear original. This section discusses sorting algorithms. Bubble sort, merge sort, and quick sort are common sorting algorithms with different time complexities.
+
+Plagiarism detection systems use a combination of these data structures and algorithms to identify textual similarities between documents. The accuracy of detection depends on the quality of text preprocessing, the choice of N-gram size, and the similarity metrics employed.
+
