@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://radios-delaware-rolled-was.trycloudflare.com/api/:path*"
+      "destination": "https://die-princess-wines-myspace.trycloudflare.com/api/:path*"
     }
   ]
 }
